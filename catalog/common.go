@@ -138,13 +138,9 @@ func NormalizeUrl(existingUrl string) (string, error) {
 	}
 
 	if u.Path == "" || u.Path == "/" {
-		u.Path = "v1-catalog"
+		u.Path = "v2-beta"
 	} else if u.Path == "/v1" || strings.HasPrefix(u.Path, "/v1/") {
-		u.Path = strings.Replace(u.Path, "/v1", "/v1-catalog", 1)
-	} else if u.Path == "/v2-beta" || strings.HasPrefix(u.Path, "/v2-beta/") {
-		u.Path = strings.Replace(u.Path, "/v2-beta", "/v1-catalog", 1)
-	} else if u.Path == "/v2" || strings.HasPrefix(u.Path, "/v2/") {
-		u.Path = strings.Replace(u.Path, "/v2", "/v1-catalog", 1)
+		u.Path = strings.Replace(u.Path, "/v1", "/v2-beta", 1)
 	}
 
 	return u.String(), nil

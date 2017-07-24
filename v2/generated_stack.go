@@ -11,15 +11,11 @@ type Stack struct {
 
 	Answers map[string]interface{} `json:"answers,omitempty" yaml:"answers,omitempty"`
 
-	Binding *Binding `json:"binding,omitempty" yaml:"binding,omitempty"`
-
 	Created string `json:"created,omitempty" yaml:"created,omitempty"`
 
 	Data map[string]interface{} `json:"data,omitempty" yaml:"data,omitempty"`
 
 	Description string `json:"description,omitempty" yaml:"description,omitempty"`
-
-	DockerCompose string `json:"dockerCompose,omitempty" yaml:"docker_compose,omitempty"`
 
 	Environment map[string]interface{} `json:"environment,omitempty" yaml:"environment,omitempty"`
 
@@ -39,8 +35,6 @@ type Stack struct {
 
 	PreviousExternalId string `json:"previousExternalId,omitempty" yaml:"previous_external_id,omitempty"`
 
-	RancherCompose string `json:"rancherCompose,omitempty" yaml:"rancher_compose,omitempty"`
-
 	RemoveTime string `json:"removeTime,omitempty" yaml:"remove_time,omitempty"`
 
 	Removed string `json:"removed,omitempty" yaml:"removed,omitempty"`
@@ -58,8 +52,6 @@ type Stack struct {
 	Transitioning string `json:"transitioning,omitempty" yaml:"transitioning,omitempty"`
 
 	TransitioningMessage string `json:"transitioningMessage,omitempty" yaml:"transitioning_message,omitempty"`
-
-	TransitioningProgress int64 `json:"transitioningProgress,omitempty" yaml:"transitioning_progress,omitempty"`
 
 	Uuid string `json:"uuid,omitempty" yaml:"uuid,omitempty"`
 }
@@ -85,8 +77,6 @@ type StackOperations interface {
 
 	ActionAddoutputs(*Stack, *AddOutputsInput) (*Stack, error)
 
-	ActionCancelupgrade(*Stack) (*Stack, error)
-
 	ActionCreate(*Stack) (*Stack, error)
 
 	ActionDeactivateservices(*Stack) (*Stack, error)
@@ -94,8 +84,6 @@ type StackOperations interface {
 	ActionError(*Stack) (*Stack, error)
 
 	ActionExportconfig(*Stack, *ComposeConfigInput) (*ComposeConfig, error)
-
-	ActionFinishupgrade(*Stack) (*Stack, error)
 
 	ActionRemove(*Stack) (*Stack, error)
 
@@ -174,15 +162,6 @@ func (c *StackClient) ActionAddoutputs(resource *Stack, input *AddOutputsInput) 
 	return resp, err
 }
 
-func (c *StackClient) ActionCancelupgrade(resource *Stack) (*Stack, error) {
-
-	resp := &Stack{}
-
-	err := c.rancherClient.doAction(STACK_TYPE, "cancelupgrade", &resource.Resource, nil, resp)
-
-	return resp, err
-}
-
 func (c *StackClient) ActionCreate(resource *Stack) (*Stack, error) {
 
 	resp := &Stack{}
@@ -215,15 +194,6 @@ func (c *StackClient) ActionExportconfig(resource *Stack, input *ComposeConfigIn
 	resp := &ComposeConfig{}
 
 	err := c.rancherClient.doAction(STACK_TYPE, "exportconfig", &resource.Resource, input, resp)
-
-	return resp, err
-}
-
-func (c *StackClient) ActionFinishupgrade(resource *Stack) (*Stack, error) {
-
-	resp := &Stack{}
-
-	err := c.rancherClient.doAction(STACK_TYPE, "finishupgrade", &resource.Resource, nil, resp)
 
 	return resp, err
 }
